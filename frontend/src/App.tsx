@@ -1,18 +1,31 @@
+import "./App.css";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import Index from "./pages/Index";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import {Toaster } from "sonner"
+import WalletConnect from "./components/WalletConnect/WalletConnect";
 
-
-import './App.css'
-import { Button } from './components/ui/button'
+const AppRouter = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/login" element={<WalletConnect/>} />
+    </Routes>
+  );
+};
 
 function App() {
-
-
   return (
     <>
-     <div className='bg-background'>
-           <h1>this is hrading</h1>
-     </div>
+      <BrowserRouter>
+        <Navbar />
+        <AppRouter />
+        <Toaster/>
+        <Footer />
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
