@@ -1,3 +1,5 @@
+import dotenv from "dotenv"
+dotenv.config();
 import { UserModel } from "../model/user.mode.js";
 import crypto from "node:crypto";
 import { verifySignature } from "../services/verifySignature.js";
@@ -33,7 +35,7 @@ const getUserNonce = async (req, res) => {
 
       user = await UserModel.create({
         walletAddress: walletAddress.toLowerCase(),
-        role: "teacher", // Temporary default, will be updated in complete-profile
+        role: "user", // Temporary default, will be updated in complete-profile
         nonce: userNonce,
         updatedAt: Date.now(),
       });
@@ -211,8 +213,6 @@ const completeProfile = async(req , res) =>{
     });
   }
 }
-
-
 
 
 const logout  = async(req , res) =>{

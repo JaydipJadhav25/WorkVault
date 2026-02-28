@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: {
-      values: ["client", "freelancer"],
+      values: ["client", "freelancer", "user"],
       message: "{VALUE} is not a valid role",
     },
     required: [true, "Role is required"],
@@ -38,7 +38,7 @@ const UserSchema = new mongoose.Schema({
 
   country: {
     type: String,
-    required: true,
+
   },
 
   nonce: {

@@ -1,3 +1,5 @@
+import dotenv from "dotenv"
+dotenv.config();
 import express from "express"
 import cors from "cors"
 import cookieParser  from "cookie-parser"
@@ -8,7 +10,7 @@ import userRouter from "./routes/user.routes.js"
 
 
 const app = express();
-const PORT = 3000;
+
 
 
 
@@ -16,7 +18,7 @@ const PORT = 3000;
 const connectDB = async () => {
     try {
       
-        await mongoose.connect("mongodb://localhost:27017/WorkVault");
+        await mongoose.connect(process.env.DB_URL);
         console.log("✅ MongoDB Connected: DApp");
     } catch (err) {
         console.error("❌ MongoDB Connection Error:", err.message);
@@ -31,7 +33,7 @@ app.set('trust proxy', 1);
 
 //middlerawre congih
 app.use(cors({
-    origin : "http://localhost:5173",
+    origin : process.env.APP_URL,
     credentials : true
 }));
 app.use(express.urlencoded({extended : true}))
@@ -63,8 +65,8 @@ app.use("/api/auth" , userRouter);
 
 // Start Server
 connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`🚀 Server running on port ${PORT}`);
+    app.listen(process.env.PORT, () => {
+        console.log(`🚀 Server running on port ${process.env.PORT}`);
     });
 });
 
