@@ -1,15 +1,20 @@
+import { useAuth } from "@/contexts/AuthContext";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { useAccount } from "wagmi";
 // import { useAuth } from "./context/AuthContext";
 
 
 function WalletConnect() {
   const { address, isConnecting, isConnected } = useAccount();
+  // const[] = useState()
 
   console.log(isConnected, address);
 
-  //   const { loginWithWallet } = useAuth();
 
+  //login with user
 
   //flow =>
   //1 first user connect wallet -> wagmi give status and accounr addres
@@ -17,9 +22,64 @@ function WalletConnect() {
   //3. login => save in db and verify user signetuee  if all done det user cookis fro user is system authemticate
   //4 . check usr response and checl profile compelete if yes => ok . otherwise navigate om  profile complete
 
+      const navigate = useNavigate();
+
+
+
+    const {loginWithWallet , loading }  = useAuth();
+     
+
+     //user login
+  const handleLogin = async () => {
+    try {
+      //check user connect to wallet
+      if (!address || !isConnected) {
+        toast.warning("wallet not yet Connected!");
+        return;
+      }
+
+      const result = await loginWithWallet(address);
+       
+      console.log("result : " , result);
+
+      //check result and navigate
+      //1.user profile is not compelte
+      if (result.success) {
+        if (result.isProfileComplete) {
+          navigate("/dashboard");
+          toast.warning("Login In Platform Successfully!");
+         
+        } else {
+          toast.warning("Create You Profile!");
+          navigate("/select-role");
+
+        }
+      }
+    } catch (error) {
+      console.log("user login error : ", error);
+      toast.error("User Login Erro!");
+    }
+  };
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 return (
   <div className="min-h-screen flex items-center justify-center px-6 bg-background relative overflow-hidden">
+      
+      
 
     {/* Subtle Background Glow */}
     <div className="absolute inset-0 -z-10 
@@ -56,15 +116,23 @@ return (
         {!isConnected ? (
           <ConnectButton />
         ) : (
+
           <button
-            onClick={() => {}}
+            onClick={() => {
+               handleLogin();
+            }}
             className="px-6 py-2 rounded-xl 
               bg-primary text-primary-foreground 
               hover:opacity-90 transition 
-              font-medium shadow-md"
+              font-medium shadow-md cursor-pointer"
           >
-            Login
+            {
+              loading ? <>
+              <div className="w-5 h-5 border-2 border-gray-300 border-t-black rounded-full animate-spin"></div>
+              </> : "Login"
+            }
           </button>
+
         )}
       </div>
 
