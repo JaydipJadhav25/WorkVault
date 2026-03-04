@@ -4,12 +4,12 @@ import useSignMessage from "@/utils/useSignMessage";
 
 
 interface AuthContextIn {
-  user: Object | null;
-  isAuthenticated: Boolean;
-  loading: Boolean;
+  user: object | null;
+  isAuthenticated: boolean;
+  loading: boolean;
   loginWithWallet: (walletAddress: string) => Promise<{
-    success: Boolean;
-    isProfileComplete?: Boolean;
+    success: boolean;
+    isProfileComplete?: boolean;
     error?: string;
   }>;
   completeProfile: (
@@ -25,7 +25,7 @@ interface AuthContextIn {
 
 const AuthContext = createContext<AuthContextIn | undefined>(undefined);
 
-export const useAuth = () => {
+export const useAuth = () : AuthContextIn => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");

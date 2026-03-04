@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   useAccountModal,
@@ -6,9 +6,11 @@ import {
 } from "@rainbow-me/rainbowkit";
 
 export default function Navbar() {
-  const { openAccountModal } = useAccountModal();
 
+  const { openAccountModal } = useAccountModal();
   console.log(openAccountModal);
+
+  const navigate = useNavigate();
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive
@@ -58,9 +60,13 @@ export default function Navbar() {
               <Button>Connect Wallet</Button>
             </Link>
           ) : (
-            <button onClick={openAccountModal} type="button">
+
+            <button onClick={()=>{
+               navigate("/login");
+            }}  type="button">
               <WalletButton wallet="metamask" />
             </button>
+            
           )}
         </div>
       </div>

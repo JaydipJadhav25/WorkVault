@@ -8,6 +8,11 @@ import WalletConnect from "./components/WalletConnect/WalletConnect";
 import AuthContextProider from "./contexts/AuthContext";
 import SelectRole from "./components/Profile/SelectRole";
 import CompleteProfile from "./components/Profile/CompleteProfile";
+import Dashbord from "./pages/Dashbord";
+import PrivateRoute from "./components/PrivateRoute";
+
+
+
 
 const AppRouter = () => {
   return (
@@ -16,6 +21,13 @@ const AppRouter = () => {
       <Route path="/login" element={<WalletConnect/>} />
       <Route path="/select-role" element={<SelectRole/>} />
       <Route path="/complete-profile" element={<CompleteProfile/>} />
+
+      <Route path="/dashbord" element={
+        <PrivateRoute roles={"client"} requireCompleteProfile={true}>
+          <Dashbord/>
+        </PrivateRoute>
+      }/>
+
     </Routes>
   );
 };
